@@ -1,6 +1,6 @@
 # Последние 5 выполненных (EXECUTED) операций выведены на экран.
 # Операции разделены пустой строкой.
-# Дата перевода представлена в формате ДД.ММ.ГГГГ (пример: 14.10.2018).
+
 # Сверху списка находятся самые последние операции (по дате).
 
 
@@ -8,13 +8,19 @@ import json
 from datetime import datetime
 from re import sub
 
-filenam = 'operations.json'
-
 
 def load_operations(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data
+
+
+def filter_executed(dictionary):
+    filter_list = []
+    for info in dictionary:
+        if info.get("state") == "EXECUTED":
+            filter_list.append(info)
+    return filter_list
 
 
 def card_number(card):
@@ -52,16 +58,21 @@ def account_numb(account):
     else:
         return "Введите номер счета"
 
+
+
     return masked_account
 
 
 s = account_numb("Счет 72082042523231456215")
 print(s)
 
+
 def date_time(number):
     """Дата перевода представлена в формате ДД.ММ.ГГГГ (пример: 14.10.2018)"""
     date_format = datetime.fromisoformat(number)
-    return f"{date_format.day}.{date_format.month}.{date_format.year}"
+    return date_format
+    #return f"{date_format.day}.{date_format.month}.{date_format.year}"
+
 
 q = date_time("2019-12-08T22:46:21.935582")
 print(q)
