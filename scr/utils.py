@@ -1,9 +1,3 @@
-# Последние 5 выполненных (EXECUTED) операций выведены на экран.
-# Операции разделены пустой строкой.
-
-# Сверху списка находятся самые последние операции (по дате).
-
-
 import json
 from datetime import datetime
 from re import sub
@@ -25,54 +19,54 @@ def filter_executed(dictionary):
 
 def card_number(card):
     """Номер карты замаскирован и не отображается целиком в формате  XXXX XX** **** XXXX"""
-    card_of_numb = []
-    card_split = card.split(' ')
-    for i in card_split:
-        if i.isdigit():
-            card_of_numb.append(i)
-
-    card_join = ''.join(card_of_numb)
-    if len(card_join) == 16:
-        masked_card = sub(r'(\d{4})(\d{2})\d{6}(\d{4})', r'\1 \2** **** \3', card_join)
+    if card == None:
+        pass
     else:
-        return "Введите номер карты"
+        card_of_numb = []
+        card_of_name = []
+        card_split = card.split(' ')
+        for i in card_split:
+            if i.isdigit():
+                card_of_numb.append(i)
+            else:
+                card_of_name.append(i)
 
-    return masked_card
+        card_join = ''.join(card_of_numb)
+        card_join_name = ' '.join(card_of_name)
 
+        if len(card_join) == 16:
+            masked_card = sub(r'(\d{4})(\d{2})\d{6}(\d{4})', r'\1 \2** **** \3', card_join)
+            masked_card_with_name = f"{card_join_name} {masked_card}"
+        else:
+            return "Введите номер карты"
 
-d = card_number("Visa Platinum 8990922113665229")
-print(d)
+        return masked_card_with_name
 
 
 def account_numb(account):
     """Номер счета замаскирован и не отображается целиком в формате  **XXXX"""
     account_of_numb = []
+    account_of_name = []
     account_split = account.split(' ')
     for i in account_split:
         if i.isdigit():
             account_of_numb.append(i)
+        else:
+            account_of_name.append(i)
 
     account_join = ''.join(account_of_numb)
+    account_join_name = ' '.join(account_of_name)
+
     if len(account_join) == 20:
         masked_account = sub(r'(\d{2})(\d{14})(\d{4})', r'**\3', account_join)
+        masked_account_with_name = f"{account_join_name} {masked_account}"
     else:
         return "Введите номер счета"
 
-
-
-    return masked_account
-
-
-s = account_numb("Счет 72082042523231456215")
-print(s)
+    return masked_account_with_name
 
 
 def date_time(number):
-    """Дата перевода представлена в формате ДД.ММ.ГГГГ (пример: 14.10.2018)"""
+    """Дата перевода представлена в формате 2019-12-08T22:46:21.935582"""
     date_format = datetime.fromisoformat(number)
     return date_format
-    #return f"{date_format.day}.{date_format.month}.{date_format.year}"
-
-
-q = date_time("2019-12-08T22:46:21.935582")
-print(q)

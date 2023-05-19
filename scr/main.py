@@ -1,4 +1,4 @@
-from scr.utils import load_operations, date_time, filter_executed
+from scr.utils import load_operations, date_time, filter_executed, card_number, account_numb
 
 filenam = 'operations.json'
 data_operation = load_operations(filenam)
@@ -11,14 +11,12 @@ def sort_date(x):
     return date
 
 
-data_sorted = sorted(data_filter_executed, key=sort_date, reverse=True)
+data_sorted_time = sorted(data_filter_executed, key=sort_date, reverse=True)
 
 for data in range(5):
-    data_operation_sort = data_sorted[data]
-
-    #print(data_operation_sort)
-
-m = date_time(data_operation_sort["date"])
-print(f"{m.day}.{m.month}.{m.year} {data_operation_sort['description']}\n"
-      f"{data_operation_sort['to']}")
-
+    data_sort_five = data_sorted_time[data]
+    date_time_mode = date_time(data_sort_five["date"])
+    print()
+    print(f"{date_time_mode.day}.{date_time_mode.month}.{date_time_mode.year} {data_sort_five['description']}\n"
+          f"{card_number(data_sort_five.get('from'))} -> {account_numb(data_sort_five['to'])}\n"
+          f"{data_sort_five['operationAmount']['amount']} {data_sort_five['operationAmount']['currency']['name']}")
