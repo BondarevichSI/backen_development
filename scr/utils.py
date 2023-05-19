@@ -4,12 +4,14 @@ from re import sub
 
 
 def load_operations(filename):
+    """загружаем файл operation.json"""
     with open(filename, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data
 
 
 def filter_executed(dictionary):
+    """фильтруем список по ключу 'state', оставляем словари только с EXECUTED"""
     filter_list = []
     for info in dictionary:
         if info.get("state") == "EXECUTED":
@@ -38,7 +40,7 @@ def card_number(card):
             masked_card = sub(r'(\d{4})(\d{2})\d{6}(\d{4})', r'\1 \2** **** \3', card_join)
             masked_card_with_name = f"{card_join_name} {masked_card}"
         else:
-            return "Введите номер карты"
+            return account_numb(card)
 
         return masked_card_with_name
 
@@ -70,3 +72,9 @@ def date_time(number):
     """Дата перевода представлена в формате 2019-12-08T22:46:21.935582"""
     date_format = datetime.fromisoformat(number)
     return date_format
+
+
+def sort_date(x):
+    """сортирует по дате """
+    date = date_time(x["date"])
+    return date
