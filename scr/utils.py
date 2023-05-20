@@ -22,7 +22,7 @@ def filter_executed(dictionary):
 def card_number(card):
     """Номер карты замаскирован и не отображается целиком в формате  XXXX XX** **** XXXX"""
     if card == None:
-        pass
+        return "Вклад"
     else:
         card_of_numb = []
         card_of_name = []
