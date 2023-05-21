@@ -21,8 +21,8 @@ def filter_executed(dictionary):
 
 def card_number(card):
     """Номер карты замаскирован и не отображается целиком в формате  XXXX XX** **** XXXX"""
-    if card == None:
-        return "Вклад"
+    if card is None:
+        return ""
     else:
         card_of_numb = []
         card_of_name = []
@@ -38,11 +38,12 @@ def card_number(card):
 
         if len(card_join) == 16:
             masked_card = sub(r'(\d{4})(\d{2})\d{6}(\d{4})', r'\1 \2** **** \3', card_join)
-            masked_card_with_name = f"{card_join_name} {masked_card}"
+            masked_card_with_name = f"{card_join_name} {masked_card} -> "
+            return masked_card_with_name
+        elif len(card_join) == 20:
+            return f"{account_numb(card)} -> "
         else:
-            return account_numb(card)
-
-        return masked_card_with_name
+            return "Введите номер счета или карты"
 
 
 def account_numb(account):
@@ -75,6 +76,6 @@ def date_time(number):
 
 
 def sort_date(x):
-    """сортирует по дате """
+    """для сортировки по дате """
     date = date_time(x["date"])
     return date
